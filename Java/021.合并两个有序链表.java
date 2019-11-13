@@ -7,12 +7,12 @@
  * }
  */
 class Solution {
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    //递归解法
+    public ListNode mergeTwoLists1(ListNode l1, ListNode l2) {
         //空判断
         if(l1 == null) return l2;
         if(l2 == null) return l1;
         ListNode res;
-        //递归求解
         if(l1.val < l2.val){
             res = l1;
             res.next = mergeTwoLists(l1.next, l2);
@@ -21,5 +21,30 @@ class Solution {
             res.next = mergeTwoLists(l1, l2.next);
         }
         return res;
+    }
+
+
+    //非递归解法
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+        ListNode pre = new ListNode(-1),end = pre;
+        while(l1 != null && l2 != null){
+            if(l1.val > l2.val){
+                end.next = l2;
+                end = l2;
+                l2 = l2.next;
+            }else{
+                end.next = l1;
+                end = l1;
+                l1 = l1.next;
+            }
+        }
+        if(l1 == null){
+            end.next = l2;
+        }else{
+            end.next = l1;
+        }
+        return pre.next;
     }
 }
